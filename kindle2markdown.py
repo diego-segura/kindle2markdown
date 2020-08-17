@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/python3
 
 from bs4 import BeautifulSoup
@@ -12,7 +13,7 @@ def clean_up_soup(soup_clean):
     return soup_clean
 
 def writeNotes(diluted_soup):
-    notebook = open((bookTitle + '.md'),"a")
+    notebook = open((bookTitle + '.md'),"a", encoding="utf-8")
     for item in diluted_soup:
         if item['class'][0] == "sectionHeading":
             notebook.write('# ' + item.contents[0] + '\n')
@@ -27,7 +28,7 @@ def writeNotes(diluted_soup):
             # notebook.write(pageNumbers)
             notebook.write(' - '.join(pageNumbers) + '\n\n')
 
-for filename in os.listdir():
+for filename in os.listdir(os.getcwd()):
     if filename.endswith(".html"): 
         soup = BeautifulSoup(open(os.path.join(sys.path[0], filename), "r"), 'html.parser')
         bookTitle = re.sub('\n|\r', '', soup.find(True, {'class':['bookTitle']}).contents[0])
